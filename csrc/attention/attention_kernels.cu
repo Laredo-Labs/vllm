@@ -214,7 +214,7 @@ __device__ void paged_attention_kernel(
       // This includes a reduction across the threads in the same thread group.
       float qk = scale * Qk_dot<scalar_t, THREAD_GROUP_SIZE>::dot(q_vecs[thread_group_offset], k_vecs);
       // Add the ALiBi bias if slopes are given.
-      qk += (alibi_slope != 0) ? alibi_slope * (token_idx - context_len + 1) : 0;
+      qk += (alibi_slope != 0) ? alibi_slope * (token_idx - context_len) : 0;
 
       if (thread_group_offset == 0) {
         // Store the partial reductions to shared memory.
